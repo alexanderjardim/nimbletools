@@ -1,0 +1,10 @@
+{
+    "id": "mage",
+    "name": "The Mage",
+    "image": "/assets/class_images/fighter.png",
+    "teasers": [
+        "Spoellshaper.",
+        "Elemental mastery.",
+        "Chaos or Control."
+    ]
+}

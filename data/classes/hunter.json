@@ -1,0 +1,10 @@
+{
+    "id": "hunter",
+    "name": "The Hunter",
+    "image": "/assets/class_images/fighter.png",
+    "teasers": [
+        "Relentless trackers.",
+        "Masters of the wild.",
+        "Deadly from afar or up close."
+    ]
+}

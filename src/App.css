@@ -144,6 +144,114 @@ body {
   margin-top: 1rem;
 }
 
+.choose-class-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.class-card {
+  background-color: #f0e6d6; /* Lighter parchment for cards */
+  border: 2px solid #8b4513;
+  border-radius: 10px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.class-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.class-card.selected {
+  border-color: #ff0000; /* Highlight color for selected card */
+  box-shadow: 0 0 15px 5px #ff0000; /* Glow effect */
+}
+
+.class-image {
+  width: 100%;
+  height: 120px; /* Fixed height for images */
+  object-fit: cover; /* Cover the area without distortion */
+  border-radius: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #a0522d;
+}
+
+.class-name {
+  font-size: 1.5rem;
+  color: #8b4513;
+  margin-bottom: 10px;
+}
+
+.class-teasers {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  color: #3a2d1d;
+}
+
+.class-teasers li {
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.attributes-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.attribute-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.attribute-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0e6d6;
+  border: 2px solid #8b4513;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.attribute-item label {
+  font-size: 1.1rem;
+  color: #8b4513;
+  margin-bottom: 5px;
+}
+
+.attribute-item input[type="number"] {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #a0522d;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 1rem;
+  background-color: #fffaf0;
+  color: #3a2d1d;
+}
+
+.attribute-item input[type="number"]:focus {
+  outline: none;
+  border-color: #cd7f32;
+  box-shadow: 0 0 5px rgba(205, 127, 50, 0.5);
+}
+
 /* Media query for smaller screens to optimize layout */
 @media (max-width: 600px) {
   .menu-buttons {

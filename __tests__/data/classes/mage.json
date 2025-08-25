@@ -1,0 +1,10 @@
+{
+  "id": "mage",
+  "name": "Mage",
+  "image": "/assets/class_images/mage.png",
+  "teasers": [
+    "Wielder of arcane spells",
+    "Commands elemental forces",
+    "Transforms reality with magic"
+  ]
+}

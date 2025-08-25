@@ -9,7 +9,7 @@ const App: React.FC = () => {
   const handleMenuClick = (page: 'Characters') => {
     setCurrentPage(page);
   };
-
+  1
   const handleBackClick = () => {
     if (currentPage === 'CharacterCreation') {
       setCurrentPage('Characters');

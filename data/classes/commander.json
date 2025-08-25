@@ -1,0 +1,10 @@
+{
+    "id": "commander",
+    "name": "The Commander",
+    "image": "/assets/class_images/fighter.png",
+    "teasers": [
+        "Tactical Commands.",
+        "Weapon mastery.",
+        "Strategic leadership."
+    ]
+}

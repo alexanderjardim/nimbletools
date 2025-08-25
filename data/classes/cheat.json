@@ -1,0 +1,10 @@
+{
+    "id": "cheat",
+    "name": "The Cheat",
+    "image": "/assets/class_images/fighter.png",
+    "teasers": [
+        "Break the rules!",
+        "Sneak in and backsta.",
+        "Fight dirty."
+    ]
+}

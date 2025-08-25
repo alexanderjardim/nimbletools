@@ -1,0 +1,10 @@
+{
+    "id": "berserker",
+    "name": "The Berserker",
+    "image": "/assets/class_images/fighter.png",
+    "teasers": [
+        "Become a raging, damage-dealing machine.",
+        "Increase your damage to unbelievable levels.",
+        "Use your Savage Arsenal"
+    ]
+}
