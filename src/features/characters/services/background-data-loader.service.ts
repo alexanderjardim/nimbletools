@@ -30,11 +30,11 @@ export class BackgroundDataLoader {
 
         const loader = BackgroundDataLoader.instance || new BackgroundDataLoader();
         loader.loadBackgrounds(backgroundData);
-        
+
         if (!BackgroundDataLoader.instance) {
             BackgroundDataLoader.instance = loader;
         }
-        
+
         return loader;
     }
 
@@ -57,11 +57,14 @@ export class BackgroundDataLoader {
             }
 
             const background = new Background(
+                rawData.id,
                 rawData.name,
-                rawData.description
+                rawData.description,
+                rawData.teasers,
+                rawData.image
             );
 
-            this._backgrounds.set(background.name, background);
+            this._backgrounds.set(background.id, background);
         }
     }
 }

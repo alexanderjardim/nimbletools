@@ -1,0 +1,111 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - heading "Nimble Tools" [level=1] [ref=e5]
+  - generic [ref=e6]:
+    - main [ref=e8]:
+      - button "Characters" [ref=e9] [cursor=pointer]
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - heading "Characters" [level=2] [ref=e12]
+        - generic [ref=e13]:
+          - paragraph [ref=e14]: No characters created yet
+          - button "Create New Character" [ref=e15] [cursor=pointer]
+      - button "Back to Menu" [ref=e17] [cursor=pointer]
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - img [ref=e26]
+            - paragraph [ref=e29]: Choose Class
+          - generic [ref=e30]:
+            - img [ref=e33]
+            - paragraph [ref=e36]: Choose Ancestry
+          - generic [ref=e37]:
+            - img [ref=e40]
+            - paragraph [ref=e43]: Choose Background
+          - generic [ref=e44]:
+            - img [ref=e47]
+            - paragraph [ref=e50]: Assign Attributes
+          - generic [ref=e51]:
+            - generic [ref=e53]: "5"
+            - paragraph [ref=e55]: Assign Skills
+          - generic [ref=e56]:
+            - generic [ref=e58]: "6"
+            - paragraph [ref=e60]: Character Details
+          - generic [ref=e61]:
+            - generic [ref=e63]: "7"
+            - paragraph [ref=e64]: Review Character
+        - generic [ref=e65]:
+          - heading "Assign Skill Points" [level=1] [ref=e66]
+          - paragraph [ref=e67]: Distribute 4 skill points across your skills.
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - generic [ref=e70]:
+                - generic [ref=e71]: arcana
+                - generic [ref=e72]:
+                  - button "-" [disabled] [ref=e73]
+                  - spinbutton [ref=e74]: "0"
+                  - button "+" [ref=e75]
+              - generic [ref=e76]:
+                - generic [ref=e77]: examination
+                - generic [ref=e78]:
+                  - button "-" [disabled] [ref=e79]
+                  - spinbutton [ref=e80]: "0"
+                  - button "+" [ref=e81]
+              - generic [ref=e82]:
+                - generic [ref=e83]: finesse
+                - generic [ref=e84]:
+                  - button "-" [disabled] [ref=e85]
+                  - spinbutton [ref=e86]: "0"
+                  - button "+" [ref=e87]
+              - generic [ref=e88]:
+                - generic [ref=e89]: influence
+                - generic [ref=e90]:
+                  - button "-" [disabled] [ref=e91]
+                  - spinbutton [ref=e92]: "0"
+                  - button "+" [ref=e93]
+              - generic [ref=e94]:
+                - generic [ref=e95]: insight
+                - generic [ref=e96]:
+                  - button "-" [disabled] [ref=e97]
+                  - spinbutton [ref=e98]: "0"
+                  - button "+" [ref=e99]
+              - generic [ref=e100]:
+                - generic [ref=e101]: lore
+                - generic [ref=e102]:
+                  - button "-" [disabled] [ref=e103]
+                  - spinbutton [ref=e104]: "0"
+                  - button "+" [ref=e105]
+              - generic [ref=e106]:
+                - generic [ref=e107]: might
+                - generic [ref=e108]:
+                  - button "-" [disabled] [ref=e109]
+                  - spinbutton [ref=e110]: "0"
+                  - button "+" [ref=e111]
+              - generic [ref=e112]:
+                - generic [ref=e113]: naturecraft
+                - generic [ref=e114]:
+                  - button "-" [disabled] [ref=e115]
+                  - spinbutton [ref=e116]: "0"
+                  - button "+" [ref=e117]
+              - generic [ref=e118]:
+                - generic [ref=e119]: perception
+                - generic [ref=e120]:
+                  - button "-" [disabled] [ref=e121]
+                  - spinbutton [ref=e122]: "0"
+                  - button "+" [ref=e123]
+              - generic [ref=e124]:
+                - generic [ref=e125]: stealth
+                - generic [ref=e126]:
+                  - button "-" [disabled] [ref=e127]
+                  - spinbutton [ref=e128]: "0"
+                  - button "+" [ref=e129]
+            - paragraph [ref=e131]: "Points Used: 0 / 4"
+          - generic [ref=e132]:
+            - button "Back" [ref=e133]
+            - button "Next" [disabled] [ref=e134]
+      - button "Back to Characters" [ref=e135]
+```

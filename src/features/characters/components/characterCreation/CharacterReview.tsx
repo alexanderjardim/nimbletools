@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CharacterStorageService } from '../../services/character-storage.service';
 import { CharacterClassDataLoader } from '../../services/character-class-data-loader.service';
 import { AncestryDataLoader } from '../../services/ancestry-data-loader.service';
 import { BackgroundDataLoader } from '../../services/background-data-loader.service';
+import { characterClassesData } from '../../data/character-classes.data';
+import { ancestryData } from '../../data/ancestries.data';
+import { backgroundsData } from '../../data/backgrounds.data';
 
 interface CharacterReviewProps {
     characterData: Record<string, any>;
@@ -17,6 +20,17 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
     onBack,
     onNavigateToStep
 }) => {
+    // Initialize data loaders synchronously
+    const initializeLoaders = () => {
+        // Always initialize the loaders to ensure data is loaded
+        CharacterClassDataLoader.create(characterClassesData);
+        AncestryDataLoader.create(ancestryData);
+        BackgroundDataLoader.create(backgroundsData);
+    };
+
+    // Initialize loaders immediately
+    initializeLoaders();
+
     // Get the data loaders
     const classLoader = CharacterClassDataLoader.getInstance();
     const ancestryLoader = AncestryDataLoader.getInstance();
@@ -27,23 +41,21 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
     const selectedAncestry = characterData.ancestry ? ancestryLoader.ancestries.get(characterData.ancestry) : null;
     const selectedBackground = characterData.background ? backgroundLoader.backgrounds.get(characterData.background) : null;
 
-    const handleCreateCharacter = () => {
-        try {
-            // Add creation timestamp
-            const completeCharacterData = {
-                ...characterData,
-                id: `character_${Date.now()}`,
-                createdAt: new Date().toISOString(),
-                level: 1,
-            };
+    // Debug logging
+    console.log('CharacterReview Debug:', {
+        characterData,
+        classLoaderSize: classLoader.characterClasses.size,
+        ancestryLoaderSize: ancestryLoader.ancestries.size,
+        backgroundLoaderSize: backgroundLoader.backgrounds.size,
+        selectedClass,
+        selectedAncestry,
+        selectedBackground,
+        backgroundId: characterData.background,
+        backgroundExists: backgroundLoader.backgrounds.has(characterData.background || ''),
+        allBackgroundIds: Array.from(backgroundLoader.backgrounds.keys()),
+        allBackgroundNames: Array.from(backgroundLoader.backgrounds.values()).map(bg => bg.name)
+    });
 
-            CharacterStorageService.saveCharacter(completeCharacterData);
-            onComplete();
-        } catch (error) {
-            console.error('Failed to save character:', error);
-            // Optionally show an error message to the user
-        }
-    };
 
     const handleEditStep = (step: number) => {
         if (onNavigateToStep) {
@@ -52,19 +64,36 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
     };
 
     return (
-        <div className="p-8 font-sans bg-gray-900 min-h-full">
-            <h1 className="text-4xl font-bold text-center text-white mb-2">Review Character</h1>
-            <p className="text-center text-gray-400 mb-10">
+        <div className="p-8 font-sans bg-parchment min-h-full">
+            <h1 className="text-4xl font-bold text-center text-ink mb-2">Review Character</h1>
+            <div className="text-center mb-6">
+                <h2 className="text-3xl font-bold text-bronze mb-2">{characterData.name || 'Unnamed Character'}</h2>
+                <h3 className="text-xl text-ink mb-2">
+                    Level 1 • {selectedClass?.name || 'No Class'} • {selectedAncestry?.name || 'No Ancestry'} • {selectedBackground?.name || 'No Background'}
+                </h3>
+                <div className="w-24 h-1 bg-bronze mx-auto rounded-full"></div>
+            </div>
+            <p className="text-center text-chestnut mb-8">
                 Review your character details before creating. Click on any section to make changes.
             </p>
 
+            {/* Next Step Button - Moved to top */}
+            <div className="flex justify-center mb-10">
+                <button
+                    onClick={onComplete}
+                    className="px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg border-2 border-green-800 hover:from-green-500 hover:to-green-600 transition-all duration-300 shadow-md hover:shadow-lg"
+                >
+                    Create Character
+                </button>
+            </div>
+
             <div className="max-w-4xl mx-auto space-y-6">
                 {/* Character Identity */}
-                <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="bg-parchment-light p-6 rounded-lg border-2 border-saddle-brown">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-bold text-white">Character Identity</h2>
+                        <h2 className="text-2xl font-bold text-ink">Character Identity</h2>
                         <button
-                            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 text-sm"
+                            className="bg-gradient-to-r from-bronze to-bronze-dark text-white px-4 py-2 rounded-lg border border-saddle-brown hover:from-bronze-light hover:to-bronze text-sm"
                             onClick={() => handleEditStep(6)}
                         >
                             Edit Details
@@ -72,34 +101,34 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-gray-400 text-sm mb-1">Name</label>
-                            <p className="text-white text-lg">{characterData.name || 'Not set'}</p>
+                            <label className="block text-chestnut text-sm mb-1">Name</label>
+                            <p className="text-ink text-lg">{characterData.name || 'Not set'}</p>
                         </div>
                         <div>
-                            <label className="block text-gray-400 text-sm mb-1">Level</label>
-                            <p className="text-white text-lg">1</p>
+                            <label className="block text-chestnut text-sm mb-1">Level</label>
+                            <p className="text-ink text-lg">1</p>
                         </div>
                         <div>
-                            <label className="block text-gray-400 text-sm mb-1">Height</label>
-                            <p className="text-white">{characterData.height || 'Not set'}</p>
+                            <label className="block text-chestnut text-sm mb-1">Height</label>
+                            <p className="text-ink">{characterData.height || 'Not set'}</p>
                         </div>
                         <div>
-                            <label className="block text-gray-400 text-sm mb-1">Weight</label>
-                            <p className="text-white">{characterData.weight || 'Not set'}</p>
+                            <label className="block text-chestnut text-sm mb-1">Weight</label>
+                            <p className="text-ink">{characterData.weight || 'Not set'}</p>
                         </div>
                         <div>
-                            <label className="block text-gray-400 text-sm mb-1">Age</label>
-                            <p className="text-white">{characterData.age || 'Not set'}</p>
+                            <label className="block text-chestnut text-sm mb-1">Age</label>
+                            <p className="text-ink">{characterData.age || 'Not set'}</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Class Information */}
-                <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="bg-gradient-to-br from-parchment-light to-parchment p-6 rounded-lg border-2 border-bronze shadow-lg">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-bold text-white">Class</h2>
+                        <h2 className="text-2xl font-bold text-bronze">Class</h2>
                         <button
-                            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 text-sm"
+                            className="bg-gradient-to-r from-bronze to-bronze-dark text-white px-4 py-2 rounded-lg border border-saddle-brown hover:from-bronze-light hover:to-bronze text-sm shadow-md"
                             onClick={() => handleEditStep(1)}
                         >
                             Change Class
@@ -107,20 +136,21 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
                     </div>
                     {selectedClass ? (
                         <div>
-                            <h3 className="text-xl text-cyan-400 mb-2">{selectedClass.name}</h3>
+                            <h3 className="text-xl text-bronze mb-2">{selectedClass.name}</h3>
+                            <h3 className="text-lg text-ink mb-4">Level 1</h3>
                             <div className="grid grid-cols-2 gap-4 mb-4">
                                 <div>
-                                    <label className="block text-gray-400 text-sm mb-1">Hit Points</label>
-                                    <p className="text-white">{selectedClass.hitPoints}</p>
+                                    <label className="block text-chestnut text-sm mb-1">Hit Points</label>
+                                    <p className="text-ink">{selectedClass.hitPoints}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-gray-400 text-sm mb-1">Hit Dice</label>
-                                    <p className="text-white">{selectedClass.hitDice.toString()}</p>
+                                    <label className="block text-chestnut text-sm mb-1">Hit Dice</label>
+                                    <p className="text-ink">{selectedClass.hitDice.quantity}d{selectedClass.hitDice.dice}</p>
                                 </div>
                             </div>
                             <div className="mb-4">
-                                <label className="block text-gray-400 text-sm mb-2">Class Features</label>
-                                <ul className="text-white space-y-1">
+                                <label className="block text-chestnut text-sm mb-2">Class Features</label>
+                                <ul className="text-ink space-y-1">
                                     {selectedClass.teasers.map((teaser: string, index: number) => (
                                         <li key={index} className="text-sm">• {teaser}</li>
                                     ))}
@@ -128,16 +158,16 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
                             </div>
                         </div>
                     ) : (
-                        <p className="text-gray-400">No class selected</p>
+                        <p className="text-chestnut">No class selected</p>
                     )}
                 </div>
 
                 {/* Ancestry Information */}
-                <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="bg-gradient-to-br from-parchment-light to-parchment p-6 rounded-lg border-2 border-bronze shadow-lg">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-bold text-white">Ancestry</h2>
+                        <h2 className="text-2xl font-bold text-bronze">Ancestry</h2>
                         <button
-                            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 text-sm"
+                            className="bg-gradient-to-r from-bronze to-bronze-dark text-white px-4 py-2 rounded-lg border border-saddle-brown hover:from-bronze-light hover:to-bronze text-sm shadow-md"
                             onClick={() => handleEditStep(2)}
                         >
                             Change Ancestry
@@ -145,29 +175,30 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
                     </div>
                     {selectedAncestry ? (
                         <div>
-                            <h3 className="text-xl text-green-400 mb-2">{selectedAncestry.name}</h3>
+                            <h3 className="text-xl text-bronze mb-2">{selectedAncestry.name}</h3>
+                            <h3 className="text-lg text-ink mb-4">Level 1</h3>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-gray-400 text-sm mb-1">Size</label>
-                                    <p className="text-white">{selectedAncestry.size}</p>
+                                    <label className="block text-chestnut text-sm mb-1">Size</label>
+                                    <p className="text-ink">{selectedAncestry.size}</p>
                                 </div>
                                 <div>
-                                    <label className="block text-gray-400 text-sm mb-1">Speed</label>
-                                    <p className="text-white">6</p>
+                                    <label className="block text-chestnut text-sm mb-1">Speed</label>
+                                    <p className="text-ink">6</p>
                                 </div>
                             </div>
                         </div>
                     ) : (
-                        <p className="text-gray-400">No ancestry selected</p>
+                        <p className="text-chestnut">No ancestry selected</p>
                     )}
                 </div>
 
                 {/* Background Information */}
-                <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="bg-gradient-to-br from-parchment-light to-parchment p-6 rounded-lg border-2 border-bronze shadow-lg">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-bold text-white">Background</h2>
+                        <h2 className="text-2xl font-bold text-bronze">Background</h2>
                         <button
-                            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 text-sm"
+                            className="bg-gradient-to-r from-bronze to-bronze-dark text-white px-4 py-2 rounded-lg border border-saddle-brown hover:from-bronze-light hover:to-bronze text-sm shadow-md"
                             onClick={() => handleEditStep(3)}
                         >
                             Change Background
@@ -175,20 +206,21 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
                     </div>
                     {selectedBackground ? (
                         <div>
-                            <h3 className="text-xl text-yellow-400 mb-2">{selectedBackground.name}</h3>
-                            <p className="text-gray-300">{selectedBackground.description}</p>
+                            <h3 className="text-xl text-bronze mb-2">{selectedBackground.name}</h3>
+                            <h3 className="text-lg text-ink mb-4">Level 1</h3>
+                            <p className="text-chestnut">{selectedBackground.description}</p>
                         </div>
                     ) : (
-                        <p className="text-gray-400">No background selected</p>
+                        <p className="text-chestnut">No background selected</p>
                     )}
                 </div>
 
                 {/* Stats */}
-                <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="bg-parchment-light p-6 rounded-lg border-2 border-saddle-brown">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-bold text-white">Ability Scores</h2>
+                        <h2 className="text-2xl font-bold text-ink">Stats</h2>
                         <button
-                            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 text-sm"
+                            className="bg-gradient-to-r from-bronze to-bronze-dark text-white px-4 py-2 rounded-lg border border-saddle-brown hover:from-bronze-light hover:to-bronze text-sm"
                             onClick={() => handleEditStep(4)}
                         >
                             Edit Stats
@@ -197,22 +229,19 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {characterData.stats && Object.entries(characterData.stats).map(([stat, value]: [string, any]) => (
                             <div key={stat} className="text-center">
-                                <div className="text-2xl font-bold text-cyan-400">{value}</div>
-                                <div className="text-gray-400 text-sm uppercase">{stat}</div>
-                                <div className="text-gray-500 text-xs">
-                                    Modifier: {Math.floor((value - 10) / 2) >= 0 ? '+' : ''}{Math.floor((value - 10) / 2)}
-                                </div>
+                                <div className="text-2xl font-bold text-bronze">{value}</div>
+                                <div className="text-chestnut text-sm uppercase">{stat}</div>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 {/* Skills */}
-                <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="bg-parchment-light p-6 rounded-lg border-2 border-saddle-brown">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-bold text-white">Skills</h2>
+                        <h2 className="text-2xl font-bold text-ink">Skills</h2>
                         <button
-                            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 text-sm"
+                            className="bg-gradient-to-r from-bronze to-bronze-dark text-white px-4 py-2 rounded-lg border border-saddle-brown hover:from-bronze-light hover:to-bronze text-sm"
                             onClick={() => handleEditStep(5)}
                         >
                             Edit Skills
@@ -221,8 +250,8 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         {characterData.skills && Object.entries(characterData.skills).map(([skill, value]: [string, any]) => (
                             <div key={skill} className="flex justify-between">
-                                <span className="text-gray-300 capitalize">{skill}</span>
-                                <span className="text-cyan-400 font-bold">{value}</span>
+                                <span className="text-chestnut capitalize">{skill}</span>
+                                <span className="text-bronze font-bold">{value}</span>
                             </div>
                         ))}
                     </div>
@@ -230,13 +259,13 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
 
                 {/* Saves */}
                 {selectedClass && (
-                    <div className="bg-gray-800 p-6 rounded-lg">
-                        <h2 className="text-2xl font-bold text-white mb-4">Saving Throws</h2>
+                    <div className="bg-parchment-light p-6 rounded-lg border-2 border-saddle-brown">
+                        <h2 className="text-2xl font-bold text-ink mb-4">Saving Throws</h2>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {Object.entries(selectedClass.saves).map(([stat, saveType]: [string, any]) => (
                                 <div key={stat} className="text-center">
-                                    <div className="text-gray-300 capitalize">{stat}</div>
-                                    <div className={`text-sm ${saveType === 'Advantaged' ? 'text-green-400' : saveType === 'Disadvantaged' ? 'text-red-400' : 'text-yellow-400'}`}>
+                                    <div className="text-chestnut capitalize">{stat}</div>
+                                    <div className={`text-sm ${saveType === 'Advantaged' ? 'text-green-600' : saveType === 'Disadvantaged' ? 'text-red-600' : 'text-bronze'}`}>
                                         {saveType}
                                     </div>
                                 </div>
@@ -246,23 +275,6 @@ const CharacterReview: React.FC<CharacterReviewProps> = ({
                 )}
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex justify-center gap-4 mt-8">
-                {onBack && (
-                    <button
-                        className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700"
-                        onClick={onBack}
-                    >
-                        Back
-                    </button>
-                )}
-                <button
-                    className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 font-bold text-lg"
-                    onClick={handleCreateCharacter}
-                >
-                    Create Character
-                </button>
-            </div>
         </div>
     );
 };

@@ -1,0 +1,40 @@
+// tailwind.config.js
+const defaultTheme = require('tailwindcss/defaultTheme');
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{html,js,ts,tsx}", // Include TypeScript files
+  ],
+  theme: {
+    extend: {
+      colors: {
+        'parchment': '#F5E5C9', // The main background color
+        'parchment-light': '#F8F0E3', // Lighter parchment for cards
+        'chestnut': '#6B240C', // The "CHARACTERS" text color
+        'ink': '#2a201c',     // The main text color for "Nimble Tools"
+        'bronze': '#cd7f32', // Bronze color for buttons
+        'bronze-light': '#e08f43', // Lighter bronze for hover
+        'bronze-dark': '#a0522d', // Darker bronze for buttons
+        'saddle-brown': '#8b4513', // Saddle brown color
+        'brown-dark': '#3a2d1d', // Dark brown text color
+        'btn': {
+          'start': '#c57d39', // Button gradient start
+          'end': '#8f5220',   // Button gradient end
+        }
+      },
+      fontFamily: {
+        // Add IM Fell English SC as the primary serif font
+        'fell': ['"IM Fell English SC"', ...defaultTheme.fontFamily.serif],
+        // Add Merriweather as the secondary serif font
+        'serif': ['Merriweather', ...defaultTheme.fontFamily.serif],
+      },
+      boxShadow: {
+        'glow-red': '0 0 15px 5px #ff0000', // Glow effect for selected cards
+        'text-shadow': '1px 1px 2px black', // Text shadow
+        'text-shadow-md': '2px 2px 4px black', // Medium text shadow
+      },
+    },
+  },
+  plugins: [],
+}

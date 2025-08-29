@@ -56,15 +56,16 @@ export class AncestryDataLoader {
                 throw new Error(`Ancestry data is missing required properties for name "${name}"`);
             }
 
-            // The user's Ancestry class doesn't have an 'id', so we use the name as the key.
-            // This assumes ancestry names are unique.
             const ancestry = new Ancestry(
+                rawData.id,
                 rawData.name,
+                rawData.image,
+                rawData.teasers,
                 rawData.description,
                 rawData.size
             );
 
-            this._ancestries.set(ancestry.name, ancestry);
+            this._ancestries.set(ancestry.id, ancestry);
         }
     }
 }

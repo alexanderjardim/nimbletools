@@ -5,30 +5,30 @@ A comprehensive character creation and management application for the Nimble 2 R
 ## 🏗️ Technology Stack
 
 ### Frontend Framework
-- **React 19** - Modern React with latest features and hooks
-- **TypeScript** - Type-safe development with full IntelliSense support
-- **Vite** - Fast build tool and development server
+- **React 19.1.1** - Modern React with latest features and hooks
+- **TypeScript 5.9.2** - Type-safe development with full IntelliSense support
+- **Vite 7.1.2** - Fast build tool and development server
 
 ### Styling & UI
-- **Tailwind CSS** - Utility-first CSS framework
-- **PostCSS** - CSS processing and optimization
+- **Tailwind CSS 4.1.12** - Utility-first CSS framework
+- **PostCSS 8.5.6** - CSS processing and optimization
 - **Custom Design System** - Medieval/fantasy themed UI with responsive design
 
 ### Development Tools
-- **ESLint** - Code linting and quality enforcement
-- **Prettier** - Code formatting
-- **Vitest** - Fast unit testing framework
-- **Playwright** - End-to-end testing
+- **ESLint 9.33.0** - Code linting and quality enforcement
+- **Prettier 3.6.2** - Code formatting with Tailwind plugin
+- **Vitest 3.2.4** - Fast unit testing framework
+- **Playwright 1.55.0** - End-to-end testing
 - **Testing Library** - React component testing utilities
 
 ### Data & Storage
 - **IndexedDB** - Client-side database for offline data persistence
-- **Zod** - TypeScript-first schema validation
+- **Zod 4.1.1** - TypeScript-first schema validation
 - **Custom Storage Services** - Type-safe data management layer
 
 ### Build & Deployment
-- **Vite PWA Plugin** - Progressive Web App functionality
-- **Autoprefixer** - CSS vendor prefixing
+- **Vite PWA Plugin 1.0.3** - Progressive Web App functionality
+- **Autoprefixer 10.4.21** - CSS vendor prefixing
 
 ## ✨ Features
 
@@ -37,9 +37,15 @@ A comprehensive character creation and management application for the Nimble 2 R
 - **Character Storage** - Persistent local storage with IndexedDB
 - **Character Overview** - Detailed character cards with stats and information
 - **Character Deletion** - Safe character removal with confirmation
+- **Auto-Navigation** - Automatic navigation to Characters page on app load
+- **Smart Deletion** - Characters with empty names can be deleted without confirmation for quick cleanup
 
 ### Character Creation Process
-1. **Choose Class** - Select from available character classes (Berserker, Cheat, Commander, Hunter)
+1. **Choose Class** - Select from available character classes:
+   - **The Berserker** - Damage-dealing machine with high HP (20) and d12 hit dice
+   - **The Cheat** - Rule-breaking specialist with d6 hit dice and sneaky abilities
+   - **The Commander** - Tactical leader with d10 hit dice and strategic advantages
+   - **The Hunter** - Wilderness expert with d8 hit dice and deadly precision
 2. **Choose Ancestry** - Select character ancestry/background
 3. **Choose Background** - Select character background/profession
 4. **Assign Stats** - Distribute ability points (Strength, Dexterity, Intelligence, Will)
@@ -86,6 +92,7 @@ The application will automatically:
 - Set up the development environment
 - Install PWA service worker for offline functionality
 - Initialize local storage for character data
+- Navigate to the Characters page automatically (single-button optimization)
 
 ## 🛠️ Development
 

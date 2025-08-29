@@ -4,7 +4,7 @@ export const characterClassesData: ICharacterClassData[] = [
     {
         id: "berserker",
         name: "The Berserker",
-        image: "/assets/class_images/fighter.png",
+        image: "https://placehold.co/300x200/dc2626/ffffff?text=Berserker",
         teasers: [
             "Damage-dealing machine.",
             "Damage to unbelievable levels.",
@@ -25,7 +25,7 @@ export const characterClassesData: ICharacterClassData[] = [
     {
         id: "cheat",
         name: "The Cheat",
-        image: "/assets/class_images/fighter.png",
+        image: "https://placehold.co/300x200/7c3aed/ffffff?text=Cheat",
         teasers: [
             "Break the rules!",
             "Sneak in and backsta.",
@@ -46,7 +46,7 @@ export const characterClassesData: ICharacterClassData[] = [
     {
         id: "commander",
         name: "The Commander",
-        image: "/assets/class_images/fighter.png",
+        image: "https://placehold.co/300x200/2563eb/ffffff?text=Commander",
         teasers: [
             "Tactical Commands.",
             "Weapon mastery.",
@@ -67,7 +67,7 @@ export const characterClassesData: ICharacterClassData[] = [
     {
         id: "hunter",
         name: "The Hunter",
-        image: "/assets/class_images/fighter.png",
+        image: "https://placehold.co/300x200/16a34a/ffffff?text=Hunter",
         teasers: [
             "Relentless trackers.",
             "Masters of the wild.",

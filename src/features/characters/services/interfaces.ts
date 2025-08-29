@@ -25,4 +25,5 @@ export interface IBackgroundData {
     name: string;
     description: string;
     teasers: string[];
+    image: string;
 }

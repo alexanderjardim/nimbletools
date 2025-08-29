@@ -9,7 +9,8 @@ export const backgroundsData: IBackgroundData[] = [
             'Deeply religious background',
             'Trained in religious rituals',
             'Connections to religious institutions'
-        ]
+        ],
+        image: 'https://placehold.co/300x200/8b5cf6/ffffff?text=Acolyte'
     },
     {
         id: 'artisan',
@@ -19,7 +20,8 @@ export const backgroundsData: IBackgroundData[] = [
             'Skilled in a specific craft',
             'Understand trade and commerce',
             'Practical problem-solving skills'
-        ]
+        ],
+        image: 'https://placehold.co/300x200/f59e0b/ffffff?text=Artisan'
     },
     {
         id: 'charlatan',
@@ -29,7 +31,8 @@ export const backgroundsData: IBackgroundData[] = [
             'Master of disguise and deception',
             'Quick-thinking and adaptable',
             'Skilled in social manipulation'
-        ]
+        ],
+        image: 'https://placehold.co/300x200/ef4444/ffffff?text=Charlatan'
     },
     {
         id: 'criminal',
@@ -39,7 +42,8 @@ export const backgroundsData: IBackgroundData[] = [
             'Underworld connections',
             'Stealth and subterfuge skills',
             'Streetwise and resourceful'
-        ]
+        ],
+        image: 'https://placehold.co/300x200/374151/ffffff?text=Criminal'
     },
     {
         id: 'entertainer',
@@ -49,7 +53,8 @@ export const backgroundsData: IBackgroundData[] = [
             'Skilled performer',
             'Charismatic and engaging',
             'Adaptable to different social situations'
-        ]
+        ],
+        image: 'https://placehold.co/300x200/ec4899/ffffff?text=Entertainer'
     },
     {
         id: 'folk-hero',
@@ -59,7 +64,8 @@ export const backgroundsData: IBackgroundData[] = [
             'Respected by local community',
             'Strong sense of justice',
             'Practical survival skills'
-        ]
+        ],
+        image: 'https://placehold.co/300x200/10b981/ffffff?text=Folk+Hero'
     },
     {
         id: 'noble',
@@ -69,7 +75,8 @@ export const backgroundsData: IBackgroundData[] = [
             'Aristocratic background',
             'Political and social connections',
             'Refined education'
-        ]
+        ],
+        image: 'https://placehold.co/300x200/3b82f6/ffffff?text=Noble'
     },
     {
         id: 'sage',
@@ -79,7 +86,8 @@ export const backgroundsData: IBackgroundData[] = [
             'Extensive academic knowledge',
             'Research and analytical skills',
             'Intellectual curiosity'
-        ]
+        ],
+        image: 'https://placehold.co/300x200/8b5a3c/ffffff?text=Sage'
     },
     {
         id: 'soldier',
@@ -89,6 +97,7 @@ export const backgroundsData: IBackgroundData[] = [
             'Military training',
             'Disciplined and strategic',
             'Combat experience'
-        ]
+        ],
+        image: 'https://placehold.co/300x200/6b7280/ffffff?text=Soldier'
     }
 ];

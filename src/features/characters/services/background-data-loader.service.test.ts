@@ -8,13 +8,15 @@ describe('BackgroundDataLoader', () => {
             id: 'soldier',
             name: 'Soldier',
             description: 'A trained military professional',
-            teasers: ['Disciplined', 'Experienced']
+            teasers: ['Disciplined', 'Experienced'],
+            image: 'https://placehold.co/300x200/666666/ffffff?text=Soldier'
         },
         {
             id: 'scholar',
             name: 'Scholar',
             description: 'An academic with deep knowledge',
-            teasers: ['Intelligent', 'Studious']
+            teasers: ['Intelligent', 'Studious'],
+            image: 'https://placehold.co/300x200/666666/ffffff?text=Scholar'
         }
     ];
 
@@ -52,7 +54,8 @@ describe('BackgroundDataLoader', () => {
                 id: 'invalid',
                 name: '',  // Missing name
                 description: '',
-                teasers: []
+                teasers: [],
+                image: 'https://placehold.co/300x200/666666/ffffff?text=Invalid'
             }
         ];
 

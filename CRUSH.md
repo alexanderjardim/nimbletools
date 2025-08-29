@@ -78,3 +78,7 @@ const value = data?.property ?? defaultValue;
 - Conventional commits
 - Descriptive, concise commit messages
 - Squash and merge for feature branches
+
+## Other files
+
+- /prompts folder contains prompts to implement the different pieces of the architecture
