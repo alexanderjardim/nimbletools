@@ -52,7 +52,7 @@ try {
   try {
     execSync(checkCommand, { stdio: "pipe" });
     console.log("All files are properly formatted. Proceeding with push.");
-  } catch (error) {
+  } catch {
     console.log("Some files need formatting. Formatting them now...");
 
     // Format the files
