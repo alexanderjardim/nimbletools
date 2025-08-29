@@ -188,12 +188,10 @@ jobs:
           mv temp_changelog.md CHANGELOG.md
 
       - name: Create release candidate
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.version.outputs.tag }}
-          release_name: Release Candidate ${{ steps.version.outputs.tag }}
+          tag: ${{ steps.version.outputs.tag }}
+          name: Release Candidate ${{ steps.version.outputs.tag }}
           body_path: CHANGELOG.md
           draft: true
           prerelease: true
@@ -215,6 +213,8 @@ jobs:
     needs: release-candidate
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment: staging
+    outputs:
+      staging_url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -277,7 +277,7 @@ jobs:
           # Run tests against staging environment
           npx playwright test e2e/ --config=playwright.staging.config.ts
         env:
-          BASE_URL: ${{ secrets.STAGING_URL }}
+          BASE_URL: ${{ needs.deploy-staging.outputs.staging_url }}
           CI: true
 
   # Production Deployment (Manual/GitHub Pages)
@@ -313,12 +313,10 @@ jobs:
           echo "✅ Ready for production deployment!"
 
       - name: Create production release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ needs.release-candidate.outputs.version }}
-          release_name: Production Release ${{ needs.release-candidate.outputs.version }}
+          tag: ${{ needs.release-candidate.outputs.version }}
+          name: Production Release ${{ needs.release-candidate.outputs.version }}
           body_path: artifacts/CHANGELOG.md
           draft: false
           prerelease: false
