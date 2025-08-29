@@ -16,6 +16,8 @@ export class CharacterClass {
         will: SaveType;
     };
 
+    // Test comment for pre-commit hook
+
     constructor(
         id: string,
         name: string,
