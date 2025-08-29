@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import { execSync } from "child_process";
-import fs from "fs";
 
 try {
   // Get the commits that are about to be pushed
@@ -81,6 +80,6 @@ try {
 
   console.log("Pre-push formatting check completed successfully!");
 } catch (error) {
-  console.error("Pre-push hook failed:", error.message);
+  console.error("Pre-push hook failed:", error?.message || error);
   process.exit(1);
 }
