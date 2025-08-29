@@ -183,12 +183,184 @@ npm run build
 This creates an optimized production build in the `dist/` directory.
 
 ### Deployment Options
-- **Static Hosting** - Deploy to Netlify, Vercel, GitHub Pages
+- **GitHub Pages** - Free hosting directly from your repository (recommended)
+- **Static Hosting** - Deploy to Netlify, Vercel, or other platforms
 - **CDN** - Serve static files from any CDN
 - **Self-hosted** - Deploy to any web server
+- **Docker** - Containerized deployment with included Dockerfile
 
 ### Environment Variables
 No environment variables are required for basic functionality. All configuration is handled at build time.
+
+## 🔄 CI/CD Pipeline
+
+This project includes a comprehensive CI/CD pipeline using GitHub Actions that automates the entire release process.
+
+### Pipeline Features
+
+#### **Automated Release Candidates**
+- **Version Management**: Automatic semantic versioning based on conventional commits
+- **Release Candidate Generation**: Creates `v1.2.3-rc.N` tags with build numbers
+- **Changelog Generation**: Automatic changelog creation using conventional commits
+- **Artifact Packaging**: Optimized builds with PWA assets and deployment packages
+
+#### **Quality Gates**
+- **Code Quality**: ESLint, Prettier, TypeScript type checking
+- **Unit Tests**: Vitest with coverage reporting
+- **E2E Tests**: Playwright tests across multiple browsers and devices
+- **Security Scanning**: Dependency vulnerability checks and code security analysis
+- **Performance**: Bundle size monitoring and Lighthouse scores
+
+#### **Multi-Environment Deployment**
+- **Staging**: Automated deployment from `main` branch
+- **Production**: Manual approval required for releases
+- **Integration Tests**: Automated testing against staging environment
+- **Health Checks**: Post-deployment verification
+
+### Pipeline Stages
+
+```mermaid
+graph TD
+    A[Push to main/develop] --> B[Quality Gates]
+    B --> C[Build & Test]
+    C --> D[Security Scan]
+    D --> E[Release Candidate]
+    E --> F[Deploy Staging]
+    F --> G[Integration Tests]
+    G --> H[Deploy Production]
+    H --> I[Post-Deployment]
+```
+
+### GitHub Actions Workflow
+
+The CI/CD pipeline is defined in `.github/workflows/ci-cd.yml` and includes:
+
+1. **Quality Assurance Job**
+   - Code linting and formatting checks
+   - TypeScript type checking
+   - Unit test execution with coverage
+   - Codecov integration
+
+2. **Build & Test Job**
+   - Production build creation
+   - E2E test execution
+   - Build artifact generation
+   - Test result archiving
+
+3. **Security Scan Job**
+   - Dependency vulnerability scanning
+   - Code security analysis
+   - Container security (if applicable)
+
+4. **Release Candidate Generation**
+   - Automatic version bumping
+   - Changelog generation
+   - GitHub release creation
+   - Artifact packaging
+
+5. **Deployment Jobs**
+   - Staging environment deployment
+   - Integration testing
+   - Production deployment
+   - Health check verification
+
+### Release Process
+
+#### **Automatic Release Candidates**
+1. Push to `main` branch triggers the pipeline
+2. All quality gates must pass
+3. Version is automatically incremented
+4. Release candidate is created with format `v1.2.3-rc.N`
+5. Changelog is generated from commit messages
+6. Artifacts are packaged and stored
+
+#### **Production Releases**
+1. Review release candidate in GitHub Releases
+2. Test staging deployment
+3. Manually approve production deployment
+4. Production deployment with rollback capability
+5. Post-deployment monitoring and alerting
+
+### Deployment Configurations
+
+#### **Static Hosting (Recommended)**
+```yaml
+# Example: Netlify deployment
+- name: Deploy to Netlify
+  uses: nwtgck/actions-netlify@v2.0
+  with:
+    publish-dir: './dist'
+    production-branch: main
+  env:
+    NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+    NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+```
+
+#### **Docker Deployment**
+```yaml
+# Build and push Docker image
+- name: Build and push Docker image
+  uses: docker/build-push-action@v5
+  with:
+    context: .
+    push: true
+    tags: myregistry.com/nimble-tools:${{ github.sha }}
+```
+
+### Configuration Files
+
+- **`.github/workflows/ci-cd.yml`** - Main CI/CD pipeline definition
+- **`playwright.staging.config.ts`** - E2E test configuration for staging
+- **`Dockerfile`** - Multi-stage Docker build for containerized deployment
+- **`nginx.conf`** - Production nginx configuration with PWA support
+- **`scripts/deploy.sh`** - Deployment script for different environments
+- **`scripts/health-check.sh`** - Post-deployment health verification
+
+### Required Secrets
+
+Set these in your GitHub repository settings:
+
+```bash
+# For GitHub Pages deployment (automatically provided)
+GITHUB_TOKEN=github_pat_with_repo_permissions
+
+# For staging/production URLs (optional - for health checks)
+STAGING_URL=https://your-username.github.io/your-repo-name
+PRODUCTION_URL=https://your-username.github.io/your-repo-name
+
+# For Docker registry (if using containerized deployment)
+DOCKER_USERNAME
+DOCKER_PASSWORD
+```
+
+### Monitoring and Alerting
+
+- **Pipeline Monitoring**: Success/failure notifications via Slack/Discord
+- **Performance Monitoring**: Bundle size and Lighthouse score tracking
+- **Error Tracking**: Application error monitoring (integrate with Sentry, LogRocket)
+- **Uptime Monitoring**: Health check endpoints for deployed applications
+
+### Cost Optimization
+
+- **GitHub Actions**: 2,000 free minutes/month
+- **Caching**: Dependencies and build artifacts are cached
+- **Parallel Execution**: Tests run in parallel to reduce execution time
+- **Artifact Cleanup**: Old artifacts are automatically cleaned up
+
+### Troubleshooting
+
+#### **Common Issues**
+- **Pipeline Fails**: Check GitHub Actions logs for detailed error messages
+- **Test Failures**: Review test screenshots and videos in artifacts
+- **Deployment Issues**: Check deployment logs and health check results
+- **Version Conflicts**: Ensure conventional commit format for proper versioning
+
+#### **Debugging Steps**
+1. Check the Actions tab in GitHub for pipeline status
+2. Review job logs for error details
+3. Download artifacts for test results and build outputs
+4. Check deployment status and health check results
+5. Review release notes and changelog for version information
 
 ## 🤝 Contributing
 

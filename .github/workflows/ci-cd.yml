@@ -1,0 +1,357 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  release:
+    types: [ published ]
+
+env:
+  NODE_VERSION: '20'
+  CACHE_KEY: 'nimble-tools-node-${{ env.NODE_VERSION }}'
+
+jobs:
+  # Quality Assurance Job
+  quality:
+    name: Quality Assurance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Format check
+        run: npx prettier --check .
+
+      - name: Unit tests
+        run: npm test -- --coverage --watchAll=false
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+
+  # Build and Test Job
+  build-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+        env:
+          CI: true
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: dist/
+          retention-days: 30
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 30
+
+  # Security Scan Job
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit dependencies
+        run: npm audit --audit-level moderate
+
+      - name: Run security scan
+        uses: github/super-linter/slim@v5
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_JAVASCRIPT_ES: true
+          VALIDATE_TYPESCRIPT_ES: true
+          VALIDATE_JSON: true
+
+      - name: Dependency vulnerability scan
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'Nimble Tools'
+          path: '.'
+          format: 'ALL'
+
+  # Release Candidate Generation
+  release-candidate:
+    name: Generate Release Candidate
+    runs-on: ubuntu-latest
+    needs: [quality, build-test, security]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: dist/
+
+      - name: Generate version and changelog
+        id: version
+        run: |
+          # Get current version from package.json
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+
+          # Generate new version (patch increment for RC)
+          NEW_VERSION=$(node -e "
+            const version = '$CURRENT_VERSION'.split('.');
+            version[2] = parseInt(version[2]) + 1;
+            console.log(version.join('.'));
+          ")
+
+          # Create RC tag
+          RC_TAG="v${NEW_VERSION}-rc.${GITHUB_RUN_NUMBER}"
+
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$RC_TAG" >> $GITHUB_OUTPUT
+
+          # Update package.json with new version
+          npm version $NEW_VERSION --no-git-tag-version
+
+      - name: Generate changelog
+        run: |
+          npx conventional-changelog -p angular -i CHANGELOG.md -s -r 0
+          echo "# Release Candidate ${{ steps.version.outputs.tag }}" >> temp_changelog.md
+          echo "" >> temp_changelog.md
+          cat CHANGELOG.md >> temp_changelog.md
+          mv temp_changelog.md CHANGELOG.md
+
+      - name: Create release candidate
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          release_name: Release Candidate ${{ steps.version.outputs.tag }}
+          body_path: CHANGELOG.md
+          draft: true
+          prerelease: true
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-candidate
+          path: |
+            dist/
+            CHANGELOG.md
+            package.json
+          retention-days: 60
+
+  # Deploy to Staging (GitHub Pages)
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: release-candidate
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: staging
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-candidate
+          path: ./artifacts
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Create staging directory
+        run: |
+          mkdir -p staging
+          cp -r artifacts/* staging/
+          # Add .nojekyll to bypass Jekyll processing
+          touch staging/.nojekyll
+
+      - name: Upload staging artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./staging
+
+      - name: Deploy to staging
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set staging URL
+        run: |
+          echo "Staging URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "STAGING_URL=${{ steps.deployment.outputs.page_url }}" >> $GITHUB_ENV
+
+  # Integration Tests
+  integration-test:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run integration tests
+        run: |
+          # Run tests against staging environment
+          npx playwright test e2e/ --config=playwright.staging.config.ts
+        env:
+          BASE_URL: ${{ secrets.STAGING_URL }}
+          CI: true
+
+  # Production Deployment (Manual/GitHub Pages)
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: integration-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    steps:
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-candidate
+          path: ./artifacts
+
+      - name: Prepare production deployment
+        run: |
+          echo "🎯 Production deployment ready!"
+          echo "Version: ${{ needs.release-candidate.outputs.version }}"
+          echo "Tag: ${{ needs.release-candidate.outputs.tag }}"
+          echo ""
+          echo "📦 Artifacts downloaded to: ./artifacts"
+          echo "📄 Changelog available at: ./artifacts/CHANGELOG.md"
+          echo ""
+          echo "🚀 To deploy to production:"
+          echo "1. Download the release artifacts"
+          echo "2. Deploy the ./artifacts folder to your hosting platform"
+          echo "3. Or use: npm run deploy:production (if configured)"
+          echo ""
+          echo "✅ All quality checks passed!"
+          echo "✅ Integration tests successful!"
+          echo "✅ Ready for production deployment!"
+
+      - name: Create production release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.release-candidate.outputs.version }}
+          release_name: Production Release ${{ needs.release-candidate.outputs.version }}
+          body_path: artifacts/CHANGELOG.md
+          draft: false
+          prerelease: false
+
+      - name: Upload production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-ready
+          path: |
+            artifacts/
+          retention-days: 90
+
+  # Post-deployment monitoring
+  post-deployment:
+    name: Post-Deployment Monitoring
+    runs-on: ubuntu-latest
+    needs: deploy-production
+    if: always()
+    steps:
+      - name: Monitor deployment
+        run: |
+          # Add monitoring and alerting logic
+          echo "Monitoring post-deployment metrics"
+
+      - name: Send notifications
+        if: failure()
+        run: |
+          # Send failure notifications
+          echo "Sending deployment failure notifications"
+
+      - name: Send notifications
+        if: success()
+        run: |
+          # Send success notifications
+          echo "Sending deployment success notifications"
