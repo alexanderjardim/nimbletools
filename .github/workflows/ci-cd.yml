@@ -10,7 +10,6 @@ on:
 
 env:
   NODE_VERSION: '20'
-  CACHE_KEY: 'nimble-tools-node-${{ env.NODE_VERSION }}'
 
 jobs:
   # Quality Assurance Job
