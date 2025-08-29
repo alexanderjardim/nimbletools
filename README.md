@@ -23,7 +23,6 @@ A comprehensive character creation and management application for the Nimble 2 R
 
 ### Data & Storage
 - **IndexedDB** - Client-side database for offline data persistence
-- **Zod 4.1.1** - TypeScript-first schema validation
 - **Custom Storage Services** - Type-safe data management layer
 
 ### Build & Deployment
