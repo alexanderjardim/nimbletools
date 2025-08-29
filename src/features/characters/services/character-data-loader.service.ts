@@ -1,10 +1,11 @@
 import { Ancestry } from '../models/ancestry.model';
 import { Background } from '../models/background.model';
 import { CharacterClass } from '../models/character-class.model';
+import { HitDice } from '../models/hit-dice.model';
 
-import ancestriesData from '../data/ancestries.data';
-import backgroundsData from '../data/backgrounds.data';
-import characterClassesData from '../data/character-classes.data';
+import { ancestryData } from '../data/ancestries.data';
+import { backgroundsData } from '../data/backgrounds.data';
+import { characterClassesData } from '../data/character-classes.data';
 
 export class CharacterDataLoaderService {
   private static instance: CharacterDataLoaderService;
@@ -27,40 +28,44 @@ export class CharacterDataLoaderService {
   }
 
   private loadAncestries(): void {
-    ancestriesData.forEach(ancestryData => {
+    ancestryData.forEach((ancestryData: any) => {
       const ancestry = new Ancestry(
+        ancestryData.id,
         ancestryData.name,
-        ancestryData.size,
-        ancestryData.traits,
-        ancestryData.languages,
-        ancestryData.speed
+        ancestryData.image,
+        ancestryData.teasers,
+        ancestryData.description,
+        ancestryData.size as any
       );
       this.ancestries.set(ancestry.name.toLowerCase(), ancestry);
     });
   }
 
   private loadBackgrounds(): void {
-    backgroundsData.forEach(backgroundData => {
+    backgroundsData.forEach((backgroundData: any) => {
       const background = new Background(
+        backgroundData.id,
         backgroundData.name,
         backgroundData.description,
-        backgroundData.skills,
-        backgroundData.equipment
+        backgroundData.teasers,
+        backgroundData.image
       );
       this.backgrounds.set(background.name.toLowerCase(), background);
     });
   }
 
   private loadCharacterClasses(): void {
-    characterClassesData.forEach(classData => {
+    characterClassesData.forEach((classData: any) => {
+      const hitDice = new HitDice(classData.hitDice.dice, classData.hitDice.quantity);
+      const savesMap = new Map(Object.entries(classData.saves)) as Map<string, string>;
       const characterClass = new CharacterClass(
+        classData.id,
         classData.name,
-        classData.hitDice,
+        classData.image,
+        classData.teasers,
         classData.hitPoints,
-        classData.primaryAbilities,
-        classData.saves,
-        classData.proficiencies,
-        classData.equipment
+        hitDice,
+        savesMap
       );
       this.characterClasses.set(characterClass.name.toLowerCase(), characterClass);
     });

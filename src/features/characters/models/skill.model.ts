@@ -1,4 +1,4 @@
-import { SkillName, StatName } from '../constants/character.constants';
+import { SkillName, StatName } from '../../../shared/constants/character.constants';
 
 export class Skill {
     readonly points: number;

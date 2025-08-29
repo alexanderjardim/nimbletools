@@ -1,6 +1,6 @@
 // src/models/hit-dice.model.ts
 
-import { HitDiceType } from '../constants/character.constants';
+import { HitDiceType } from '../../../shared/constants/character.constants';
 
 export class HitDice {
     readonly dice: HitDiceType;

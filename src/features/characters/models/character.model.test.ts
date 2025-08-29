@@ -8,7 +8,7 @@ import { Background } from './background.model';
 describe('Character', () => {
     // --- Test Setup ---
     // This mock data is now scoped to only the Character tests.
-    const mockHitDice = new HitDice("d6", 1);
+    const mockHitDice = new HitDice("d6" as any, 1);
     const mockCharacterClass = new CharacterClass(
         'wizard', 'Wizard', 'wizard.png', [], 8, mockHitDice,
         new Map([
@@ -18,8 +18,8 @@ describe('Character', () => {
             ['will', 'Advantaged'],
         ])
     );
-    const mockAncestry = new Ancestry('Elf', 'A pointy-eared forest dweller.', 'Medium');
-    const mockBackground = new Background('Sage', 'A life of study.');
+    const mockAncestry = new Ancestry('elf', 'Elf', 'elf.png', ['Graceful', 'Long-lived'], 'A pointy-eared forest dweller.', 'Medium' as any);
+    const mockBackground = new Background('sage', 'Sage', 'A life of study.', ['Scholarly'], 'sage.png');
 
     it('should construct a character with correct base properties', () => {
         const stats = new Map<string, number>();

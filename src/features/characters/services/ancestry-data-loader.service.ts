@@ -30,11 +30,11 @@ export class AncestryDataLoader {
 
         const loader = AncestryDataLoader.instance || new AncestryDataLoader();
         loader.loadAncestries(ancestryData);
-        
+
         if (!AncestryDataLoader.instance) {
             AncestryDataLoader.instance = loader;
         }
-        
+
         return loader;
     }
 
@@ -62,7 +62,7 @@ export class AncestryDataLoader {
                 rawData.image,
                 rawData.teasers,
                 rawData.description,
-                rawData.size
+                rawData.size as any
             );
 
             this._ancestries.set(ancestry.id, ancestry);

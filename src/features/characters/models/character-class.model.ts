@@ -1,5 +1,5 @@
 
-import { SaveType } from '../../shared/constants/character.constants';
+import { SaveType } from '../../../shared/constants/character.constants';
 import { HitDice } from './hit-dice.model'; // <-- Import the corrected HitDice class
 
 export class CharacterClass {
