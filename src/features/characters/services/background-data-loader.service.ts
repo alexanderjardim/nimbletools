@@ -7,7 +7,7 @@ export class BackgroundDataLoader {
   public readonly backgrounds: ReadonlyMap<string, Background> =
     this._backgrounds;
 
-  private constructor() { }
+  private constructor() {}
 
   public static getInstance(): BackgroundDataLoader {
     if (!BackgroundDataLoader.instance) {
