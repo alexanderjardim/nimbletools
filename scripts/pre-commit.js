@@ -13,6 +13,35 @@ try {
 
   console.log("Staged files:", stagedFiles);
 
+  // Filter for files that should be formatted (TypeScript, JavaScript, JSON, etc.)
+  const filesToFormat = stagedFiles.filter(
+    (file) =>
+      file.endsWith(".ts") ||
+      file.endsWith(".tsx") ||
+      file.endsWith(".js") ||
+      file.endsWith(".jsx") ||
+      file.endsWith(".json") ||
+      file.endsWith(".css") ||
+      file.endsWith(".scss") ||
+      file.endsWith(".html") ||
+      file.endsWith(".md"),
+  );
+
+  if (filesToFormat.length > 0) {
+    console.log("Formatting files:", filesToFormat);
+
+    // Run prettier on staged files
+    const formatCommand = `npx prettier --write ${filesToFormat.join(" ")}`;
+    console.log("Running:", formatCommand);
+
+    execSync(formatCommand, { stdio: "inherit" });
+
+    // Add the formatted files back to staging
+    execSync(`git add ${filesToFormat.join(" ")}`, { stdio: "inherit" });
+
+    console.log("Files formatted and re-staged!");
+  }
+
   // Filter for TypeScript source files in src/ (not test files)
   const sourceFiles = stagedFiles.filter(
     (file) =>
