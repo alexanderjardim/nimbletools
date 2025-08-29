@@ -5,21 +5,22 @@
 The elements in the characters page don't render when the character-classes.data.ts is big enough
 
 The file /src/features/characters/components/CharactersPAge.tsx is where the rendering issue is happening.
-The file /src/features/characters/components/ChooseClasse.tsx is where the character class data is loaded. 
+The file /src/features/characters/components/ChooseClasse.tsx is where the character class data is loaded.
 
 ## Code
 
 ### App.css
+
 ```css
 /* Add a Google Font for a high-contrast, readable style */
-@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap");
 
 body {
   /* Parchment background color as a fallback */
   background-color: #f5deb3;
   /* Add a parchment texture image here */
   /* background-image: url('path/to/your/parchment-texture.jpg'); */
-  font-family: 'IM Fell English SC', serif;
+  font-family: "IM Fell English SC", serif;
   color: #3a2d1d;
   /* Dark brown color for high contrast */
   margin: 0;
@@ -91,16 +92,21 @@ body {
   color: white;
   padding: 1rem 2rem;
   font-size: 1.5rem;
-  font-family: 'IM Fell English SC', serif;
+  font-family: "IM Fell English SC", serif;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   text-shadow: 1px 1px 2px black;
 }
 
 .menu-button:hover {
   background: linear-gradient(145deg, #e08f43, #b36b3f);
-  box-shadow: 0 0 20px 5px #ff0000, 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 0 20px 5px #ff0000,
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
 
@@ -133,9 +139,11 @@ body {
   color: white;
   padding: 0.75rem 1.5rem;
   font-size: 1.2rem;
-  font-family: 'IM Fell English SC', serif;
+  font-family: "IM Fell English SC", serif;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   text-shadow: 1px 1px 2px black;
   margin-top: 1rem;
@@ -279,41 +287,44 @@ body {
 ```
 
 ### ./App.tsx
+
 ```tsx
-import React, { useState } from 'react';
-import './App.css';
-import CharactersPage from './features/characters/components/CharactersPage';
-import CharacterCreationPage from './features/characters/components/CharacterCreationPage';
+import React, { useState } from "react";
+import "./App.css";
+import CharactersPage from "./features/characters/components/CharactersPage";
+import CharacterCreationPage from "./features/characters/components/CharacterCreationPage";
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<'main' | 'Characters' | 'CharacterCreation'>('main');
+  const [currentPage, setCurrentPage] = useState<
+    "main" | "Characters" | "CharacterCreation"
+  >("main");
 
-  const handleMenuClick = (page: 'Characters') => {
+  const handleMenuClick = (page: "Characters") => {
     setCurrentPage(page);
   };
-  1
+  1;
   const handleBackClick = () => {
-    if (currentPage === 'CharacterCreation') {
-      setCurrentPage('Characters');
+    if (currentPage === "CharacterCreation") {
+      setCurrentPage("Characters");
     } else {
-      setCurrentPage('main');
+      setCurrentPage("main");
     }
   };
 
   const handleCreateCharacterClick = () => {
-    setCurrentPage('CharacterCreation');
+    setCurrentPage("CharacterCreation");
   };
 
   const getTransformValue = () => {
     switch (currentPage) {
-      case 'main':
-        return 'translateX(0)';
-      case 'Characters':
-        return 'translateX(-100vw)';
-      case 'CharacterCreation':
-        return 'translateX(-200vw)';
+      case "main":
+        return "translateX(0)";
+      case "Characters":
+        return "translateX(-100vw)";
+      case "CharacterCreation":
+        return "translateX(-200vw)";
       default:
-        return 'translateX(0)';
+        return "translateX(0)";
     }
   };
 
@@ -323,312 +334,334 @@ const App: React.FC = () => {
         <h1>Nimble Tools</h1>
       </header>
 
-      <div className="page-container" style={{ transform: getTransformValue(), width: '300vw' }}>
-
+      <div
+        className="page-container"
+        style={{ transform: getTransformValue(), width: "300vw" }}
+      >
         {/* The Main Menu Page */}
         <div className="page main-menu-page">
           <main className="menu-buttons">
-            <button className="menu-button" onClick={() => handleMenuClick('Characters')}>Characters</button>
+            <button
+              className="menu-button"
+              onClick={() => handleMenuClick("Characters")}
+            >
+              Characters
+            </button>
           </main>
         </div>
 
-        <CharactersPage onBackClick={handleBackClick} onCreateNewCharacter={handleCreateCharacterClick} />
+        <CharactersPage
+          onBackClick={handleBackClick}
+          onCreateNewCharacter={handleCreateCharacterClick}
+        />
 
         <CharacterCreationPage onBackClick={handleBackClick} />
-
       </div>
     </div>
   );
-}
+};
 
 export default App;
 ```
 
 ### ./src/features/characters/data/character-classes.data.ts
+
 ```typescript
-import { ICharacterClassData } from '../services/interfaces';
+import { ICharacterClassData } from "../services/interfaces";
 
 export const characterClassesData: ICharacterClassData[] = [
-    {
-        id: "berserker",
-        name: "The Berserker",
-        image: "/assets/class_images/fighter.png",
-        teasers: [
-            "Become a raging, damage-dealing machine.",
-            "Increase your damage to unbelievable levels.",
-            "Use your Savage Arsenal"
-        ],
-        hitPoints: 20,
-        hitDice: {
-            dice: "d12",
-            quantity: 1
-        },
-        saves: {
-            strength: "Advantaged",
-            dexterity: "Normal",
-            intelligence: "Disadvantaged",
-            will: "Normal"
-        }
+  {
+    id: "berserker",
+    name: "The Berserker",
+    image: "/assets/class_images/fighter.png",
+    teasers: [
+      "Become a raging, damage-dealing machine.",
+      "Increase your damage to unbelievable levels.",
+      "Use your Savage Arsenal",
+    ],
+    hitPoints: 20,
+    hitDice: {
+      dice: "d12",
+      quantity: 1,
     },
-    {
-        id: "cheat",
-        name: "The Cheat",
-        image: "/assets/class_images/fighter.png",
-        teasers: [
-            "Break the rules!",
-            "Sneak in and backsta.",
-            "Fight dirty."
-        ],
-        hitPoints: 10,
-        hitDice: {
-            dice: "d6",
-            quantity: 1
-        },
-        saves: {
-            strength: "Normal",
-            dexterity: "Advantaged",
-            intelligence: "Normal",
-            will: "Disadvantaged"
-        }
+    saves: {
+      strength: "Advantaged",
+      dexterity: "Normal",
+      intelligence: "Disadvantaged",
+      will: "Normal",
     },
-    {
-        id: "commander",
-        name: "The Commander",
-        image: "/assets/class_images/fighter.png",
-        teasers: [
-            "Tactical Commands.",
-            "Weapon mastery.",
-            "Strategic leadership."
-        ],
-        hitPoints: 17,
-        hitDice: {
-            dice: "d10",
-            quantity: 1
-        },
-        saves: {
-            strength: "Advantaged",
-            dexterity: "Disadvantaged",
-            intelligence: "Normal",
-            will: "Normal"
-        }
+  },
+  {
+    id: "cheat",
+    name: "The Cheat",
+    image: "/assets/class_images/fighter.png",
+    teasers: ["Break the rules!", "Sneak in and backsta.", "Fight dirty."],
+    hitPoints: 10,
+    hitDice: {
+      dice: "d6",
+      quantity: 1,
     },
-    {
-        id: "hunter",
-        name: "The Hunter",
-        image: "/assets/class_images/fighter.png",
-        teasers: [
-            "Relentless trackers.",
-            "Masters of the wild.",
-            "Deadly from afar or up close."
-        ],
-        hitPoints: 13,
-        hitDice: {
-            dice: "d8",
-            quantity: 1
-        },
-        saves: {
-            strength: "Normal",
-            dexterity: "Advantaged",
-            intelligence: "Disadvantaged",
-            will: "Normal"
-        }
-
-    }
-]
+    saves: {
+      strength: "Normal",
+      dexterity: "Advantaged",
+      intelligence: "Normal",
+      will: "Disadvantaged",
+    },
+  },
+  {
+    id: "commander",
+    name: "The Commander",
+    image: "/assets/class_images/fighter.png",
+    teasers: ["Tactical Commands.", "Weapon mastery.", "Strategic leadership."],
+    hitPoints: 17,
+    hitDice: {
+      dice: "d10",
+      quantity: 1,
+    },
+    saves: {
+      strength: "Advantaged",
+      dexterity: "Disadvantaged",
+      intelligence: "Normal",
+      will: "Normal",
+    },
+  },
+  {
+    id: "hunter",
+    name: "The Hunter",
+    image: "/assets/class_images/fighter.png",
+    teasers: [
+      "Relentless trackers.",
+      "Masters of the wild.",
+      "Deadly from afar or up close.",
+    ],
+    hitPoints: 13,
+    hitDice: {
+      dice: "d8",
+      quantity: 1,
+    },
+    saves: {
+      strength: "Normal",
+      dexterity: "Advantaged",
+      intelligence: "Disadvantaged",
+      will: "Normal",
+    },
+  },
+];
 ```
 
-### ./src/features/characters/components/CharactersPAge.tsx 
+### ./src/features/characters/components/CharactersPAge.tsx
+
 ```tsx
-import React from 'react';
+import React from "react";
 
 // Define the type for the props our component will receive.
 interface CharactersPageProps {
-    onBackClick: () => void;
-    onCreateNewCharacter: () => void;
+  onBackClick: () => void;
+  onCreateNewCharacter: () => void;
 }
 
-const CharactersPage: React.FC<CharactersPageProps> = ({ onBackClick, onCreateNewCharacter }) => {
-    return (
-        <div className="page section-page">
-            <div className="section-content">
-                <h2 className="section-title">Characters</h2>
-                <p>Content for the Characters section goes here...</p>
-                {/* Here you can add more character-specific content and components */}
-            </div>
-            {/* A container for the buttons at the bottom of the page */}
-            <div className="button-group">
-                {/* The "Back to Menu" button's onClick now calls the function passed down through props */}
-                <button className="back-button" onClick={onBackClick}>Back to Menu</button>
-                
-                {/* A new button for creating a character */}
-                <button 
-                    className="menu-button" 
-                    onClick={onCreateNewCharacter}
-                >
-                    Create New Character
-                </button>
-            </div>
-        </div>
-    );
+const CharactersPage: React.FC<CharactersPageProps> = ({
+  onBackClick,
+  onCreateNewCharacter,
+}) => {
+  return (
+    <div className="page section-page">
+      <div className="section-content">
+        <h2 className="section-title">Characters</h2>
+        <p>Content for the Characters section goes here...</p>
+        {/* Here you can add more character-specific content and components */}
+      </div>
+      {/* A container for the buttons at the bottom of the page */}
+      <div className="button-group">
+        {/* The "Back to Menu" button's onClick now calls the function passed down through props */}
+        <button className="back-button" onClick={onBackClick}>
+          Back to Menu
+        </button>
+
+        {/* A new button for creating a character */}
+        <button className="menu-button" onClick={onCreateNewCharacter}>
+          Create New Character
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default CharactersPage;
 ```
 
 ### ./src/features/characters/components/ChooseClass.tsx
+
 ```tsx
 import { useEffect, useState } from "react";
 import { CharacterClass } from "../../models/character-class.model";
 import { DataLoader } from "../../services/data-loader.service";
 import { characterClassesData } from "../../data/character-classes.data";
 
-
 const ChooseClass: React.FC = () => {
-    const [classes, setClasses] = useState<CharacterClass[]>([]);
-    const [selectedClass, setSelectedClass] = useState<string | null>(null);
+  const [classes, setClasses] = useState<CharacterClass[]>([]);
+  const [selectedClass, setSelectedClass] = useState<string | null>(null);
 
-    // useEffect now uses the DataLoader service to get class data.
-    // The service is initialized here, but because it's a singleton,
-    // it will only be created once.
-    useEffect(() => {
-        try {
-            // 1. Create (or get) the singleton instance of the data loader
-            const loader = DataLoader.create(characterClassesData);
+  // useEffect now uses the DataLoader service to get class data.
+  // The service is initialized here, but because it's a singleton,
+  // it will only be created once.
+  useEffect(() => {
+    try {
+      // 1. Create (or get) the singleton instance of the data loader
+      const loader = DataLoader.create(characterClassesData);
 
-            // 2. Get the classes from the service and convert the Map to an Array
-            const loadedClasses = Array.from(loader.characterClasses.values());
+      // 2. Get the classes from the service and convert the Map to an Array
+      const loadedClasses = Array.from(loader.characterClasses.values());
 
-            // 3. Set the state
-            setClasses(loadedClasses);
-        } catch (error) {
-            console.error("Failed to load character classes:", error);
-            // Optionally, set an error state to display a message to the user
-        }
-    }, []); // Empty dependency array ensures this runs only once on mount.
-
-    const handleClassClick = (classId: string) => {
-        setSelectedClass(classId);
-        // In a real application, you would save this selection to a global state or context
-        console.log('Selected class:', classId);
-    };
-
-    if (classes.length === 0) {
-        return <div className="text-white text-center p-10">Loading classes...</div>;
+      // 3. Set the state
+      setClasses(loadedClasses);
+    } catch (error) {
+      console.error("Failed to load character classes:", error);
+      // Optionally, set an error state to display a message to the user
     }
+  }, []); // Empty dependency array ensures this runs only once on mount.
 
+  const handleClassClick = (classId: string) => {
+    setSelectedClass(classId);
+    // In a real application, you would save this selection to a global state or context
+    console.log("Selected class:", classId);
+  };
+
+  if (classes.length === 0) {
     return (
-        <div className="p-8 font-sans bg-gray-900 min-h-screen">
-            <h1 className="text-4xl font-bold text-center text-white mb-2">Choose Your Class</h1>
-            <p className="text-center text-gray-400 mb-10">Select a class to begin your adventure.</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {classes.map(cls => (
-                    <div
-                        key={cls.id}
-                        className={`bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/50 cursor-pointer ${selectedClass === cls.id ? 'ring-4 ring-cyan-400 scale-105' : 'ring-2 ring-transparent'}`}
-                        onClick={() => handleClassClick(cls.id)}
-                        data-testid={`class-card-${cls.id}`}
-                    >
-                        <img
-                            src={cls.image}
-                            alt={cls.name}
-                            className="w-full h-48 object-cover"
-                            onError={(e) => { e.currentTarget.src = 'https://placehold.co/300x200/ff0000/ffffff?text=Error'; }}
-                        />
-                        <div className="p-6">
-                            <h3 className="text-2xl font-bold text-white mb-3">{cls.name}</h3>
-                            <ul className="text-gray-400 space-y-2 list-disc list-inside">
-                                {cls.teasers.map((teaser, index) => (
-                                    <li key={index}>{teaser}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
+      <div className="text-white text-center p-10">Loading classes...</div>
     );
+  }
+
+  return (
+    <div className="p-8 font-sans bg-gray-900 min-h-screen">
+      <h1 className="text-4xl font-bold text-center text-white mb-2">
+        Choose Your Class
+      </h1>
+      <p className="text-center text-gray-400 mb-10">
+        Select a class to begin your adventure.
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {classes.map((cls) => (
+          <div
+            key={cls.id}
+            className={`bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/50 cursor-pointer ${selectedClass === cls.id ? "ring-4 ring-cyan-400 scale-105" : "ring-2 ring-transparent"}`}
+            onClick={() => handleClassClick(cls.id)}
+            data-testid={`class-card-${cls.id}`}
+          >
+            <img
+              src={cls.image}
+              alt={cls.name}
+              className="w-full h-48 object-cover"
+              onError={(e) => {
+                e.currentTarget.src =
+                  "https://placehold.co/300x200/ff0000/ffffff?text=Error";
+              }}
+            />
+            <div className="p-6">
+              <h3 className="text-2xl font-bold text-white mb-3">{cls.name}</h3>
+              <ul className="text-gray-400 space-y-2 list-disc list-inside">
+                {cls.teasers.map((teaser, index) => (
+                  <li key={index}>{teaser}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default function App() {
-    return <ChooseClass />;
+  return <ChooseClass />;
 }
 ```
 
 ### ./src/features/characters/components/CharacterCreationPage.tsx
+
 ```tsx
 import { useEffect, useState } from "react";
 import { CharacterClass } from "../../models/character-class.model";
 import { DataLoader } from "../../services/data-loader.service";
 import { characterClassesData } from "../../data/character-classes.data";
 
-
 const ChooseClass: React.FC = () => {
-    const [classes, setClasses] = useState<CharacterClass[]>([]);
-    const [selectedClass, setSelectedClass] = useState<string | null>(null);
+  const [classes, setClasses] = useState<CharacterClass[]>([]);
+  const [selectedClass, setSelectedClass] = useState<string | null>(null);
 
-    // useEffect now uses the DataLoader service to get class data.
-    // The service is initialized here, but because it's a singleton,
-    // it will only be created once.
-    useEffect(() => {
-        try {
-            // 1. Create (or get) the singleton instance of the data loader
-            const loader = DataLoader.create(characterClassesData);
+  // useEffect now uses the DataLoader service to get class data.
+  // The service is initialized here, but because it's a singleton,
+  // it will only be created once.
+  useEffect(() => {
+    try {
+      // 1. Create (or get) the singleton instance of the data loader
+      const loader = DataLoader.create(characterClassesData);
 
-            // 2. Get the classes from the service and convert the Map to an Array
-            const loadedClasses = Array.from(loader.characterClasses.values());
+      // 2. Get the classes from the service and convert the Map to an Array
+      const loadedClasses = Array.from(loader.characterClasses.values());
 
-            // 3. Set the state
-            setClasses(loadedClasses);
-        } catch (error) {
-            console.error("Failed to load character classes:", error);
-            // Optionally, set an error state to display a message to the user
-        }
-    }, []); // Empty dependency array ensures this runs only once on mount.
-
-    const handleClassClick = (classId: string) => {
-        setSelectedClass(classId);
-        // In a real application, you would save this selection to a global state or context
-        console.log('Selected class:', classId);
-    };
-
-    if (classes.length === 0) {
-        return <div className="text-white text-center p-10">Loading classes...</div>;
+      // 3. Set the state
+      setClasses(loadedClasses);
+    } catch (error) {
+      console.error("Failed to load character classes:", error);
+      // Optionally, set an error state to display a message to the user
     }
+  }, []); // Empty dependency array ensures this runs only once on mount.
 
+  const handleClassClick = (classId: string) => {
+    setSelectedClass(classId);
+    // In a real application, you would save this selection to a global state or context
+    console.log("Selected class:", classId);
+  };
+
+  if (classes.length === 0) {
     return (
-        <div className="p-8 font-sans bg-gray-900 min-h-screen">
-            <h1 className="text-4xl font-bold text-center text-white mb-2">Choose Your Class</h1>
-            <p className="text-center text-gray-400 mb-10">Select a class to begin your adventure.</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {classes.map(cls => (
-                    <div
-                        key={cls.id}
-                        className={`bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/50 cursor-pointer ${selectedClass === cls.id ? 'ring-4 ring-cyan-400 scale-105' : 'ring-2 ring-transparent'}`}
-                        onClick={() => handleClassClick(cls.id)}
-                        data-testid={`class-card-${cls.id}`}
-                    >
-                        <img
-                            src={cls.image}
-                            alt={cls.name}
-                            className="w-full h-48 object-cover"
-                            onError={(e) => { e.currentTarget.src = 'https://placehold.co/300x200/ff0000/ffffff?text=Error'; }}
-                        />
-                        <div className="p-6">
-                            <h3 className="text-2xl font-bold text-white mb-3">{cls.name}</h3>
-                            <ul className="text-gray-400 space-y-2 list-disc list-inside">
-                                {cls.teasers.map((teaser, index) => (
-                                    <li key={index}>{teaser}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
+      <div className="text-white text-center p-10">Loading classes...</div>
     );
+  }
+
+  return (
+    <div className="p-8 font-sans bg-gray-900 min-h-screen">
+      <h1 className="text-4xl font-bold text-center text-white mb-2">
+        Choose Your Class
+      </h1>
+      <p className="text-center text-gray-400 mb-10">
+        Select a class to begin your adventure.
+      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {classes.map((cls) => (
+          <div
+            key={cls.id}
+            className={`bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-cyan-500/50 cursor-pointer ${selectedClass === cls.id ? "ring-4 ring-cyan-400 scale-105" : "ring-2 ring-transparent"}`}
+            onClick={() => handleClassClick(cls.id)}
+            data-testid={`class-card-${cls.id}`}
+          >
+            <img
+              src={cls.image}
+              alt={cls.name}
+              className="w-full h-48 object-cover"
+              onError={(e) => {
+                e.currentTarget.src =
+                  "https://placehold.co/300x200/ff0000/ffffff?text=Error";
+              }}
+            />
+            <div className="p-6">
+              <h3 className="text-2xl font-bold text-white mb-3">{cls.name}</h3>
+              <ul className="text-gray-400 space-y-2 list-disc list-inside">
+                {cls.teasers.map((teaser, index) => (
+                  <li key={index}>{teaser}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default function App() {
-    return <ChooseClass />;
+  return <ChooseClass />;
 }
 ```

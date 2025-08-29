@@ -5,16 +5,19 @@ A comprehensive character creation and management application for the Nimble 2 R
 ## 🏗️ Technology Stack
 
 ### Frontend Framework
+
 - **React 19.1.1** - Modern React with latest features and hooks
 - **TypeScript 5.9.2** - Type-safe development with full IntelliSense support
 - **Vite 7.1.2** - Fast build tool and development server
 
 ### Styling & UI
+
 - **Tailwind CSS 4.1.12** - Utility-first CSS framework
 - **PostCSS 8.5.6** - CSS processing and optimization
 - **Custom Design System** - Medieval/fantasy themed UI with responsive design
 
 ### Development Tools
+
 - **ESLint 9.33.0** - Code linting and quality enforcement
 - **Prettier 3.6.2** - Code formatting with Tailwind plugin
 - **Vitest 3.2.4** - Fast unit testing framework
@@ -22,16 +25,19 @@ A comprehensive character creation and management application for the Nimble 2 R
 - **Testing Library** - React component testing utilities
 
 ### Data & Storage
+
 - **IndexedDB** - Client-side database for offline data persistence
 - **Custom Storage Services** - Type-safe data management layer
 
 ### Build & Deployment
+
 - **Vite PWA Plugin 1.0.3** - Progressive Web App functionality
 - **Autoprefixer 10.4.21** - CSS vendor prefixing
 
 ## ✨ Features
 
 ### Character Management
+
 - **Complete Character Creation** - Step-by-step guided character creation process
 - **Character Storage** - Persistent local storage with IndexedDB
 - **Character Overview** - Detailed character cards with stats and information
@@ -40,6 +46,7 @@ A comprehensive character creation and management application for the Nimble 2 R
 - **Smart Deletion** - Characters with empty names can be deleted without confirmation for quick cleanup
 
 ### Character Creation Process
+
 1. **Choose Class** - Select from available character classes:
    - **The Berserker** - Damage-dealing machine with high HP (20) and d12 hit dice
    - **The Cheat** - Rule-breaking specialist with d6 hit dice and sneaky abilities
@@ -52,6 +59,7 @@ A comprehensive character creation and management application for the Nimble 2 R
 6. **Character Details** - Set name, age, height, weight, and other details
 
 ### Technical Features
+
 - **Progressive Web App (PWA)** - Installable on mobile and desktop
 - **Offline First** - Full functionality without internet connection
 - **Responsive Design** - Optimized for mobile, tablet, and desktop
@@ -62,23 +70,27 @@ A comprehensive character creation and management application for the Nimble 2 R
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - **Node.js** (version 18 or higher)
 - **npm** or **yarn** package manager
 
 ### Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd nimble-tools
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start the development server**
+
    ```bash
    npm run dev
    ```
@@ -87,7 +99,9 @@ A comprehensive character creation and management application for the Nimble 2 R
    Navigate to `http://localhost:5173` (or the port shown in your terminal)
 
 ### First Time Setup
+
 The application will automatically:
+
 - Set up the development environment
 - Install PWA service worker for offline functionality
 - Initialize local storage for character data
@@ -97,14 +111,14 @@ The application will automatically:
 
 ### Available Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Build production-ready application |
-| `npm run preview` | Preview production build locally |
-| `npm run lint` | Run ESLint for code quality checks |
-| `npm run test` | Run unit tests with Vitest |
-| `npm run test:e2e` | Run end-to-end tests with Playwright |
+| Script             | Description                              |
+| ------------------ | ---------------------------------------- |
+| `npm run dev`      | Start development server with hot reload |
+| `npm run build`    | Build production-ready application       |
+| `npm run preview`  | Preview production build locally         |
+| `npm run lint`     | Run ESLint for code quality checks       |
+| `npm run test`     | Run unit tests with Vitest               |
+| `npm run test:e2e` | Run end-to-end tests with Playwright     |
 
 ### Development Workflow
 
@@ -144,18 +158,23 @@ src/
 ## 🧪 Testing
 
 ### Unit Tests
+
 Run unit tests with:
+
 ```bash
 npm run test
 ```
 
 ### End-to-End Tests
+
 Run E2E tests with:
+
 ```bash
 npm run test:e2e
 ```
 
 ### Test Coverage
+
 - Component rendering and interactions
 - Data persistence and retrieval
 - Form validation and error handling
@@ -164,11 +183,13 @@ npm run test:e2e
 ## 📱 Progressive Web App (PWA)
 
 This application is a fully functional PWA that can be:
+
 - **Installed** on mobile devices and desktop
 - **Used Offline** with full functionality
 - **Updated Automatically** when new versions are available
 
 ### Installation
+
 1. Open the app in a supported browser (Chrome, Edge, Safari)
 2. Click "Install" or "Add to Home Screen"
 3. The app will be available as a native application
@@ -176,6 +197,7 @@ This application is a fully functional PWA that can be:
 ## 🚀 Deployment
 
 ### Build for Production
+
 ```bash
 npm run build
 ```
@@ -183,6 +205,7 @@ npm run build
 This creates an optimized production build in the `dist/` directory.
 
 ### Deployment Options
+
 - **GitHub Pages** - Free hosting directly from your repository (recommended)
 - **Static Hosting** - Deploy to Netlify, Vercel, or other platforms
 - **CDN** - Serve static files from any CDN
@@ -190,6 +213,7 @@ This creates an optimized production build in the `dist/` directory.
 - **Docker** - Containerized deployment with included Dockerfile
 
 ### Environment Variables
+
 No environment variables are required for basic functionality. All configuration is handled at build time.
 
 ## 🔄 CI/CD Pipeline
@@ -199,12 +223,14 @@ This project includes a comprehensive CI/CD pipeline using GitHub Actions that a
 ### Pipeline Features
 
 #### **Automated Release Candidates**
+
 - **Version Management**: Automatic semantic versioning based on conventional commits
 - **Release Candidate Generation**: Creates `v1.2.3-rc.N` tags with build numbers
 - **Changelog Generation**: Automatic changelog creation using conventional commits
 - **Artifact Packaging**: Optimized builds with PWA assets and deployment packages
 
 #### **Quality Gates**
+
 - **Code Quality**: ESLint, Prettier, TypeScript type checking
 - **Unit Tests**: Vitest with coverage reporting
 - **E2E Tests**: Playwright tests across multiple browsers and devices
@@ -212,6 +238,7 @@ This project includes a comprehensive CI/CD pipeline using GitHub Actions that a
 - **Performance**: Bundle size monitoring and Lighthouse scores
 
 #### **Multi-Environment Deployment**
+
 - **Staging**: Automated deployment from `main` branch
 - **Production**: Manual approval required for releases
 - **Integration Tests**: Automated testing against staging environment
@@ -267,6 +294,7 @@ The CI/CD pipeline is defined in `.github/workflows/ci-cd.yml` and includes:
 ### Release Process
 
 #### **Automatic Release Candidates**
+
 1. Push to `main` branch triggers the pipeline
 2. All quality gates must pass
 3. Version is automatically incremented
@@ -275,6 +303,7 @@ The CI/CD pipeline is defined in `.github/workflows/ci-cd.yml` and includes:
 6. Artifacts are packaged and stored
 
 #### **Production Releases**
+
 1. Review release candidate in GitHub Releases
 2. Test staging deployment
 3. Manually approve production deployment
@@ -284,12 +313,13 @@ The CI/CD pipeline is defined in `.github/workflows/ci-cd.yml` and includes:
 ### Deployment Configurations
 
 #### **Static Hosting (Recommended)**
+
 ```yaml
 # Example: Netlify deployment
 - name: Deploy to Netlify
   uses: nwtgck/actions-netlify@v2.0
   with:
-    publish-dir: './dist'
+    publish-dir: "./dist"
     production-branch: main
   env:
     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
@@ -297,6 +327,7 @@ The CI/CD pipeline is defined in `.github/workflows/ci-cd.yml` and includes:
 ```
 
 #### **Docker Deployment**
+
 ```yaml
 # Build and push Docker image
 - name: Build and push Docker image
@@ -350,12 +381,14 @@ DOCKER_PASSWORD
 ### Troubleshooting
 
 #### **Common Issues**
+
 - **Pipeline Fails**: Check GitHub Actions logs for detailed error messages
 - **Test Failures**: Review test screenshots and videos in artifacts
 - **Deployment Issues**: Check deployment logs and health check results
 - **Version Conflicts**: Ensure conventional commit format for proper versioning
 
 #### **Debugging Steps**
+
 1. Check the Actions tab in GitHub for pipeline status
 2. Review job logs for error details
 3. Download artifacts for test results and build outputs
@@ -372,6 +405,7 @@ DOCKER_PASSWORD
 6. **Open a Pull Request**
 
 ### Code Standards
+
 - Follow TypeScript best practices
 - Use functional React components with hooks
 - Maintain test coverage for new features
@@ -385,6 +419,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🆘 Support
 
 If you encounter any issues or have questions:
+
 1. Check the existing issues on GitHub
 2. Create a new issue with detailed information
 3. Include browser version, device type, and steps to reproduce

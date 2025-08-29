@@ -1,8 +1,11 @@
-import { SaveType, StatName } from "../../../shared/constants/character.constants";
+import {
+  SaveType,
+  StatName,
+} from "../../../shared/constants/character.constants";
 
 export class Save {
-    constructor(
-        public readonly type: SaveType,
-        public readonly stat: StatName
-    ) { }
+  constructor(
+    public readonly type: SaveType,
+    public readonly stat: StatName,
+  ) {}
 }

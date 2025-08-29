@@ -1,11 +1,11 @@
-import { Ancestry } from '../models/ancestry.model';
-import { Background } from '../models/background.model';
-import { CharacterClass } from '../models/character-class.model';
-import { HitDice } from '../models/hit-dice.model';
+import { Ancestry } from "../models/ancestry.model";
+import { Background } from "../models/background.model";
+import { CharacterClass } from "../models/character-class.model";
+import { HitDice } from "../models/hit-dice.model";
 
-import { ancestryData } from '../data/ancestries.data';
-import { backgroundsData } from '../data/backgrounds.data';
-import { characterClassesData } from '../data/character-classes.data';
+import { ancestryData } from "../data/ancestries.data";
+import { backgroundsData } from "../data/backgrounds.data";
+import { characterClassesData } from "../data/character-classes.data";
 
 export class CharacterDataLoaderService {
   private static instance: CharacterDataLoaderService;
@@ -35,7 +35,7 @@ export class CharacterDataLoaderService {
         ancestryData.image,
         ancestryData.teasers,
         ancestryData.description,
-        ancestryData.size as any
+        ancestryData.size as any,
       );
       this.ancestries.set(ancestry.name.toLowerCase(), ancestry);
     });
@@ -48,7 +48,7 @@ export class CharacterDataLoaderService {
         backgroundData.name,
         backgroundData.description,
         backgroundData.teasers,
-        backgroundData.image
+        backgroundData.image,
       );
       this.backgrounds.set(background.name.toLowerCase(), background);
     });
@@ -56,8 +56,14 @@ export class CharacterDataLoaderService {
 
   private loadCharacterClasses(): void {
     characterClassesData.forEach((classData: any) => {
-      const hitDice = new HitDice(classData.hitDice.dice, classData.hitDice.quantity);
-      const savesMap = new Map(Object.entries(classData.saves)) as Map<string, string>;
+      const hitDice = new HitDice(
+        classData.hitDice.dice,
+        classData.hitDice.quantity,
+      );
+      const savesMap = new Map(Object.entries(classData.saves)) as Map<
+        string,
+        string
+      >;
       const characterClass = new CharacterClass(
         classData.id,
         classData.name,
@@ -65,9 +71,12 @@ export class CharacterDataLoaderService {
         classData.teasers,
         classData.hitPoints,
         hitDice,
-        savesMap
+        savesMap,
       );
-      this.characterClasses.set(characterClass.name.toLowerCase(), characterClass);
+      this.characterClasses.set(
+        characterClass.name.toLowerCase(),
+        characterClass,
+      );
     });
   }
 

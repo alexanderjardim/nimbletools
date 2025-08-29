@@ -4,6 +4,7 @@
 
 **Application**: Nimble Tools - A collection of tools for the Nimble 2 RPG system
 **Tech Stack**:
+
 - Frontend: React 19.1.1 with TypeScript
 - Build Tool: Vite 7.1.2
 - Testing: Vitest (unit tests) + Playwright (E2E tests)
@@ -52,15 +53,15 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
   release:
-    types: [ published ]
+    types: [published]
 
 env:
-  NODE_VERSION: '20'
-  CACHE_KEY: 'nimble-tools-${{ runner.os }}-node-${{ env.NODE_VERSION }}'
+  NODE_VERSION: "20"
+  CACHE_KEY: "nimble-tools-${{ runner.os }}-node-${{ env.NODE_VERSION }}"
 
 jobs:
   # Quality Assurance Job
@@ -75,7 +76,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
@@ -111,7 +112,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -175,9 +176,9 @@ jobs:
       - name: Dependency vulnerability scan
         uses: dependency-check/Dependency-Check_Action@main
         with:
-          project: 'Nimble Tools'
-          path: '.'
-          format: 'ALL'
+          project: "Nimble Tools"
+          path: "."
+          format: "ALL"
 
   # Release Candidate Generation
   release-candidate:
@@ -412,12 +413,13 @@ jobs:
 ### Deployment Methods
 
 #### Option 1: Static Hosting (Recommended)
+
 ```yaml
 # Deploy to Netlify/Vercel/Cloudflare Pages
 - name: Deploy to Netlify
   uses: nwtgck/actions-netlify@v2.0
   with:
-    publish-dir: './dist'
+    publish-dir: "./dist"
     production-branch: main
     github-token: ${{ secrets.GITHUB_TOKEN }}
     deploy-message: "Deploy from GitHub Actions"
@@ -427,6 +429,7 @@ jobs:
 ```
 
 #### Option 2: Cloud Storage + CDN
+
 ```yaml
 # Deploy to AWS S3 + CloudFront
 - name: Deploy to S3
@@ -437,10 +440,11 @@ jobs:
     AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    SOURCE_DIR: 'dist'
+    SOURCE_DIR: "dist"
 ```
 
 #### Option 3: Docker + Kubernetes
+
 ```yaml
 # Build and push Docker image
 - name: Build and push Docker image
@@ -456,18 +460,21 @@ jobs:
 ## Quality Gates and Security
 
 ### Code Quality
+
 - **ESLint**: JavaScript/TypeScript linting
 - **Prettier**: Code formatting
 - **TypeScript**: Type checking
 - **Test Coverage**: Minimum 80% coverage required
 
 ### Security Measures
+
 - **Dependency Audit**: npm audit for vulnerabilities
 - **Code Security**: GitHub CodeQL analysis
 - **Container Security**: Trivy scans for Docker images
 - **Secrets Management**: GitHub Secrets for sensitive data
 
 ### Performance Monitoring
+
 - **Bundle Size**: Monitor JavaScript bundle size
 - **Lighthouse**: Automated performance testing
 - **PWA Score**: Progressive Web App compliance
@@ -475,6 +482,7 @@ jobs:
 ## Monitoring and Alerting
 
 ### Application Monitoring
+
 ```yaml
 # Add to production deployment
 - name: Setup monitoring
@@ -485,6 +493,7 @@ jobs:
 ```
 
 ### Pipeline Monitoring
+
 - **Success/Failure Notifications**: Slack/Discord webhooks
 - **Metrics Collection**: Pipeline duration, success rates
 - **Alerting**: Failed deployments, security vulnerabilities
@@ -492,6 +501,7 @@ jobs:
 ## Rollback Strategy
 
 ### Automated Rollback
+
 ```yaml
 # Add to production deployment job
 - name: Rollback on failure
@@ -503,6 +513,7 @@ jobs:
 ```
 
 ### Manual Rollback
+
 1. Identify the last stable release
 2. Deploy previous version
 3. Update release tags
@@ -511,6 +522,7 @@ jobs:
 ## Branching Strategy
 
 ### Git Flow
+
 ```
 main (production) ──┐
                     ├── release/v1.2.3
@@ -521,6 +533,7 @@ develop ───────────┘
 ```
 
 ### Release Branching
+
 - `main`: Production releases
 - `develop`: Integration branch
 - `release/*`: Release preparation
@@ -531,8 +544,9 @@ develop ───────────┘
 ### Additional Configuration Files Needed
 
 1. **Playwright Staging Config** (`playwright.staging.config.ts`):
+
 ```typescript
-import { defineConfig } from '@playwright/test';
+import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   use: {
@@ -543,6 +557,7 @@ export default defineConfig({
 ```
 
 2. **Dockerfile** (if using containerized deployment):
+
 ```dockerfile
 FROM node:20-alpine AS builder
 WORKDIR /app
@@ -557,6 +572,7 @@ CMD ["nginx", "-g", "daemon off;"]
 ```
 
 3. **nginx.conf** (for production serving):
+
 ```nginx
 server {
     listen 80;
@@ -584,6 +600,7 @@ server {
 ## Implementation Checklist
 
 ### Phase 1: Basic CI/CD
+
 - [ ] Create GitHub Actions workflow file
 - [ ] Configure Node.js setup and caching
 - [ ] Implement linting and type checking
@@ -591,6 +608,7 @@ server {
 - [ ] Configure build process
 
 ### Phase 2: Testing & Quality
+
 - [ ] Add E2E test execution
 - [ ] Configure test reporting
 - [ ] Implement code coverage
@@ -598,18 +616,21 @@ server {
 - [ ] Configure performance monitoring
 
 ### Phase 3: Release Management
+
 - [ ] Implement version management
 - [ ] Add changelog generation
 - [ ] Configure release candidate creation
 - [ ] Set up artifact management
 
 ### Phase 4: Deployment
+
 - [ ] Choose deployment platform
 - [ ] Configure staging environment
 - [ ] Implement production deployment
 - [ ] Add health checks and monitoring
 
 ### Phase 5: Advanced Features
+
 - [ ] Implement rollback strategy
 - [ ] Add integration testing
 - [ ] Configure alerting and notifications
@@ -618,6 +639,7 @@ server {
 ## Cost Optimization
 
 ### GitHub Actions Minutes
+
 - **Free Tier**: 2,000 minutes/month
 - **Paid Tier**: $0.008/minute for additional minutes
 - **Optimization Strategies**:
@@ -627,6 +649,7 @@ server {
   - Skip unnecessary jobs for certain triggers
 
 ### Storage Costs
+
 - **Artifacts**: $0.25/GB for storage over 500MB
 - **Logs**: Retained for 90 days
 - **Optimization**: Clean up old artifacts regularly
@@ -634,6 +657,7 @@ server {
 ## Maintenance and Updates
 
 ### Regular Tasks
+
 - [ ] Update Node.js version quarterly
 - [ ] Review and update dependencies monthly
 - [ ] Monitor pipeline performance
@@ -641,6 +665,7 @@ server {
 - [ ] Review and optimize costs
 
 ### Emergency Procedures
+
 - [ ] Pipeline failure response
 - [ ] Security incident handling
 - [ ] Rollback procedures
