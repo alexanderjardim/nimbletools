@@ -9,7 +9,7 @@ The Characters feature is the core functionality of Nimble Tools, enabling users
 ## ✨ Supported Features
 
 ### Character Creation Workflow
-A guided 6-step character creation process:
+A guided 7-step character creation process:
 
 1. **Choose Class** - Select from available character classes
 2. **Choose Ancestry** - Select character ancestry/background
@@ -17,6 +17,7 @@ A guided 6-step character creation process:
 4. **Assign Stats** - Distribute ability points (Strength, Dexterity, Intelligence, Will)
 5. **Assign Skills** - Allocate skill points based on class and background
 6. **Character Details** - Set name, age, height, weight, and other details
+7. **Review Character** - Review complete character sheet and confirm creation
 
 ### Character Management
 - **Persistent Storage** - Characters saved locally using IndexedDB
@@ -24,6 +25,7 @@ A guided 6-step character creation process:
 - **Character Details** - Detailed character information display
 - **Character Deletion** - Safe character removal with confirmation
 - **State Persistence** - Remembers user progress and selections
+- **Character Review** - Final review step before character creation with editing options
 
 ### Character Classes
 Currently supported character classes:
@@ -88,6 +90,7 @@ src/features/characters/
 #### UI Components
 - **CharactersPage**: Main character management interface
 - **CharacterCreationPage**: Multi-step creation wizard
+- **CharacterReview**: Final review step with complete character sheet
 - **Step Components**: Individual steps in the creation process
 - **StepGuide**: Progress indicator for creation workflow
 
