@@ -277,7 +277,7 @@ jobs:
           # Run tests against staging environment
           npx playwright test e2e/ --config=playwright.staging.config.ts
         env:
-          BASE_URL: ${{ needs.deploy-staging.outputs.staging_url }}
+          BASE_URL: ${{ needs.deploy-staging.outputs.staging_url || 'http://localhost:5173' }}
           CI: true
 
   # Production Deployment (Manual/GitHub Pages)

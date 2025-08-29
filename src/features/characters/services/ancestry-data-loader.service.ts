@@ -65,7 +65,7 @@ export class AncestryDataLoader {
                 rawData.size as any
             );
 
-            this._ancestries.set(ancestry.id, ancestry);
+            this._ancestries.set(ancestry.name, ancestry);
         }
     }
 }
