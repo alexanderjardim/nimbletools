@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import CharactersPage from './components/CharactersPage';
-import CharacterCreationPage from './components/CharacterCreationPage';
+import CharactersPage from './features/characters/components/CharactersPage';
+import CharacterCreationPage from './features/characters/components/CharacterCreationPage';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<'main' | 'Characters' | 'CharacterCreation'>('main');

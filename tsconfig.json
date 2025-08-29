@@ -18,11 +18,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": [
+      "vite/client"
+    ],
   },
   "include": [
     "src",
-    "src/dataLoaders/ClassesDataLoader.ts"
+    "src/features/characters/services/data-loader.service.ts",
   ],
   "references": [
     {
